@@ -14,7 +14,7 @@ module.exports = {
         }
 
         const query = encodeURIComponent(m.text);
-        const searchUrl = `https://deliriusapi-official.vercel.app/search/soundcloud?q=${query}&limit=15`;
+        const searchUrl = `https://deliriussapi-oficial.vercel.app/search/soundcloud?q=${query}&limit=15`;
 
         try {
             const searchResponse = await axios.get(searchUrl);
@@ -34,7 +34,7 @@ module.exports = {
 
             for (const [i, result] of results.entries()) {
                 sessions.push(async () => {
-                    const downloadUrl = `https://deliriusapi-official.vercel.app/download/soundcloud?url=${result.link}`;
+                    const downloadUrl = `https://deliriussapi-oficial.vercel.app/download/soundcloud?url=${result.link}`;
                     const downloadResponse = await axios.get(downloadUrl);
                     const { title, data } = downloadResponse.data;
 
