@@ -8,7 +8,7 @@ class BridgeManager {
     async initialize() {
         log.info('🌉 Initializing bridges...');
 
-        // Telegram bridge
+        // Advanced Telegram bridge
         if (this.config.bridges?.telegram?.enabled) {
             const { TelegramBridge } = require('./telegram');
             const bridge = new TelegramBridge(this.bot, this.config.bridges.telegram);
@@ -16,6 +16,9 @@ class BridgeManager {
             this.bot.addBridge(bridge);
             this.bridges.push(bridge);
         }
+
+        // Add more bridges here in the future
+        // Discord, Slack, etc.
 
         log.info(`🌉 ${this.bridges.length} bridges initialized`);
     }
