@@ -1,7 +1,7 @@
 {
   "name": "nexus-bot",
   "version": "2.0.0",
-  "description": "Clean WhatsApp bot with modular architecture",
+  "description": "Clean WhatsApp bot with modular architecture and advanced Telegram bridge",
   "main": "index.js",
   "engines": {
     "node": ">20.0.0"
@@ -17,9 +17,16 @@
     "baileys": "^6.7.7",
     "pino": "^8.17.2",
     "pino-pretty": "^11.2.2",
-    "qrcode-terminal": "^0.12.0"
+    "qrcode-terminal": "^0.12.0",
+    "node-telegram-bot-api": "^0.64.0",
+    "mongodb": "^6.3.0",
+    "fs-extra": "^11.2.0",
+    "sharp": "^0.33.2",
+    "mime-types": "^2.1.35",
+    "fluent-ffmpeg": "^2.1.2",
+    "wa-sticker-formatter": "^4.4.4"
   },
-  "keywords": ["whatsapp-bot", "nexus-bot", "baileys"],
+  "keywords": ["whatsapp-bot", "nexus-bot", "baileys", "telegram-bridge"],
   "author": "Nexus Team",
   "license": "MIT"
 }

@@ -31,7 +31,24 @@ module.exports = {
         telegram: {
             enabled: false,
             botToken: "YOUR_BOT_TOKEN",
-            chatId: "YOUR_CHAT_ID"
+            chatId: "YOUR_CHAT_ID",
+            logChannel: "YOUR_LOG_CHANNEL", // Optional
+            features: {
+                readReceipts: true,
+                callLogs: true,
+                statusUpdates: true
+            }
+        }
+    },
+    
+    // Database Configuration
+    database: {
+        mongodb: {
+            url: process.env.MONGODB_URL || "mongodb://localhost:27017/nexus_bot",
+            options: {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            }
         }
     }
 };
