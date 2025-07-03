@@ -1,10 +1,9 @@
 const { default: makeWASocket, DisconnectReason, jidDecode } = require('baileys');
-const { generate } = require('qrcode-terminal'); // Add this import
+const qrcode = require('qrcode-terminal');
 const { loadSession } = require('./session');
 const { serialize } = require('./serializer');
 const { handleMessage } = require('./handler');
 const log = require('pino')(); // or whatever logger you're using
-
 class NexusBot {
     constructor(config) {
         this.config = config;
@@ -19,7 +18,6 @@ class NexusBot {
 
         this.sock = makeWASocket({
             auth: state,
-            printQRInTerminal: !this.config.usePairing,
             logger: log.child({ module: 'baileys' }),
             markOnlineOnConnect: true,
             syncFullHistory: false
@@ -61,7 +59,16 @@ class NexusBot {
     async onConnectionUpdate(update) {
         const { connection, lastDisconnect, qr } = update;
 
-        if (qr) generate(qr, { small: true });
+        // Handle QR code generation more safely
+        if (qr && !this.config.usePairing) {
+            try {
+                console.log('\n📱 Scan the QR code below with WhatsApp:');
+                qrcode.generate(qr, { small: true });
+            } catch (error) {
+                console.log('❌ QR Code generation failed:', error.message);
+                console.log('📱 QR Data:', qr);
+            }
+        }
 
         switch (connection) {
             case 'connecting':
