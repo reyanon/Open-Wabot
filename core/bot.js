@@ -1,7 +1,9 @@
 const { default: makeWASocket, DisconnectReason, jidDecode } = require('baileys');
+const { generate } = require('qrcode-terminal'); // Add this import
 const { loadSession } = require('./session');
 const { serialize } = require('./serializer');
 const { handleMessage } = require('./handler');
+const log = require('pino')(); // or whatever logger you're using
 
 class NexusBot {
     constructor(config) {
