@@ -1,10 +1,10 @@
 module.exports = {
     // Bot Configuration
     botName: "Nexus Bot",
-    botNumber: "1234567890", // Your WhatsApp number
+    botNumber: "923417033005", // Your WhatsApp number
     
     // Admin Configuration
-    administrator: ["1234567890"], // Admin phone numbers
+    administrator: ["923417033005"], // Admin phone numbers
     
     // Features
     debug: false,
@@ -29,9 +29,9 @@ module.exports = {
     // Bridge System
     bridges: {
         telegram: {
-            enabled: false,
-            botToken: "YOUR_BOT_TOKEN",
-            chatId: "YOUR_CHAT_ID",
+            enabled: true,
+            botToken: "7580382614:AAH30PW6TFmgRzbC7HUXIHQ35GpndbJOIEI",
+            chatId: "-1002287300661",
             logChannel: "YOUR_LOG_CHANNEL", // Optional
             features: {
                 readReceipts: true,
@@ -44,7 +44,7 @@ module.exports = {
     // Database Configuration
     database: {
         mongodb: {
-            url: process.env.MONGODB_URL || "mongodb://localhost:27017/nexus_bot",
+            url: "mongodb+srv://itxelijah07:ivp8FYGsbVfjQOkj@cluster0.wh25x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
             options: {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
