@@ -4,6 +4,7 @@ const { loadSession } = require('./session');
 const { serialize } = require('./serializer');
 const { handleMessage } = require('./handler');
 const log = require('pino')(); // or whatever logger you're using
+
 class NexusBot {
     constructor(config) {
         this.config = config;
@@ -59,11 +60,11 @@ class NexusBot {
     async onConnectionUpdate(update) {
         const { connection, lastDisconnect, qr } = update;
 
-        // Handle QR code generation more safely
+        // Handle QR code generation safely with error correction level
         if (qr && !this.config.usePairing) {
             try {
                 console.log('\n📱 Scan the QR code below with WhatsApp:');
-                qrcode.generate(qr, { small: true });
+                qrcode.generate(qr, { small: true, errorCorrectLevel: 'M' });
             } catch (error) {
                 console.log('❌ QR Code generation failed:', error.message);
                 console.log('📱 QR Data:', qr);
@@ -143,8 +144,9 @@ class NexusBot {
 
     notifyBridges(event, data) {
         this.bridges.forEach(bridge => {
-            if (bridge[`on${event.charAt(0).toUpperCase() + event.slice(1)}`]) {
-                bridge[`on${event.charAt(0).toUpperCase() + event.slice(1)}`](data);
+            const handlerName = `on${event.charAt(0).toUpperCase() + event.slice(1)}`;
+            if (typeof bridge[handlerName] === 'function') {
+                bridge[handlerName](data);
             }
         });
     }
