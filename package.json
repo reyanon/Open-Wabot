@@ -1,38 +1,31 @@
 {
-  "name": "open-wabot",
-  "version": "1.0.1",
-  "description": "Simple whatsapp bot",
-  "main": "index.js",
+  "name": "nexus-bot",
+  "version": "2.0.0",
+  "description": "Advanced WhatsApp bot with modular architecture and bridge system",
+  "main": "src/index.js",
   "engines": {
     "node": ">20.0.0 <22.7.0"
   },
   "scripts": {
-    "test": "node test.js",
     "start": "node controller.js",
-    "clear:session": "node src/session.js",
-    "install:plugins": "npm i bot-plugins@latest && ln -s ./node_modules/bot-plugins/config.js ./config.plugin.js",
-    "uninstall:plugins": "cp ./node_modules/bot-plugins/config.js ./data/config.plugin.js && npm un plugins",
-    "install:mongo": "npm i baileys-mongodb",
-    "uninstall:mongo": "npm un baileys-mongodb",
-    "install:firebase": "npm i baileys-firebase",
-    "uninstall:firebase": "npm un baileys-firebase"
+    "dev": "node src/index.js",
+    "test": "node test.js",
+    "clear:session": "node scripts/clear-session.js",
+    "setup": "node scripts/setup.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KilluaBot/open-wabot.git"
+    "url": "git+https://github.com/nexus-bot/nexus-bot.git"
   },
   "keywords": [
     "whatsapp-bot",
-    "wabot",
+    "nexus-bot",
     "baileys",
-    "bot-baileys"
+    "modular-bot",
+    "bridge-system"
   ],
-  "author": "Rusdi",
+  "author": "Nexus Bot Team",
   "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/KilluaBot/open-wabot/issues"
-  },
-  "homepage": "https://github.com/KilluaBot/open-wabot#readme",
   "dependencies": {
     "axios": "^1.7.5",
     "baileys": "^6.7.7",
@@ -41,28 +34,28 @@
     "file-type": "^19.4.1",
     "pino-pretty": "^11.2.2",
     "qrcode-terminal": "^0.12.0",
-    "syntax-error": "^1.4.0"
+    "syntax-error": "^1.4.0",
+    "node-telegram-bot-api": "^0.64.0",
+    "mongodb": "^6.3.0",
+    "sharp": "^0.33.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "wa-sticker-formatter": "^4.4.4",
+    "mime-types": "^2.1.35",
+    "fs-extra": "^11.2.0"
   },
   "peerDependencies": {
     "baileys-mongodb": "^1.0.4",
-    "bot-plugins": "^1.0.0",
-    "jimp": "^0.16.13",
-    "sharp": "^0.32.6"
+    "baileys-firebase": "^1.0.0",
+    "jimp": "^0.16.13"
   },
   "peerDependenciesMeta": {
     "baileys-firebase": {
-      "optional": true
-    },
-    "bot-plugins": {
       "optional": true
     },
     "baileys-mongodb": {
       "optional": true
     },
     "jimp": {
-      "optional": true
-    },
-    "sharp": {
       "optional": true
     }
   }

@@ -1,15 +1,11 @@
 /*
- * This script runs the bot as a child process, automatically restarting
- * it if it crashes. It's a handy alternative to pm2 or nodemon for 
- * environments where you can't install global dependencies, like on 
- * non-root free VPS or Pterodactyl VMs.
- *
- * You can still run the bot normally without using this script.
+ * Nexus Bot Controller
+ * Manages the bot process with automatic restart capabilities
  */
 
 const { execSync: run, spawn } = require('child_process');
-const args = ['index.js', ...process.argv.slice(2)];
-const { loadAuthState } = require('./src/session.js');
+const args = ['src/index.js', ...process.argv.slice(2)];
+const { loadAuthState } = require('./src/core/session.js');
 
 let restart = false;
 let crashTimestamps = [];
@@ -27,7 +23,7 @@ function start() {
         function handleRestart() {
             console.log('Restart signal received. Stopping process...');
             restart = true;
-            bot.kill(); // Kill the current process
+            bot.kill();
         }
 
         switch (msg) {
@@ -35,8 +31,8 @@ function start() {
                 handleRestart();
                 break;
             case 'unauthorized':
-                let s = await loadAuthState();
-                await s.removeCreds()
+                let s = await loadAuthState({ session: { type: 'local' } });
+                await s.removeCreds();
                 handleRestart();
                 break;
         }
