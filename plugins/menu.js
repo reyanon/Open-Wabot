@@ -1,32 +1,26 @@
-const { botName } = require('../config.js')
-
 module.exports = {
-    admin: false,
     name: 'menu',
-    alias: ['m'],
+    alias: ['help', 'm'],
     category: 'info',
     run: async (m, plugins) => {
-        let text = `▌│█║▌║▌║ *${botName}* ║▌║▌║█│▌\nHi *${m.name}*, `;
-        text += m.sender.user.startsWith('62')
-            ? 'berikut adalah daftar fitur yang tersedia.'
-            : 'here is the list of available features.'
-        let categories = {}
+        let text = `🤖 *Nexus Bot Menu*\n\nHi *${m.pushName || 'User'}*!\n\n`;
+        
+        const categories = {};
+        plugins.forEach(plugin => {
+            const cat = plugin.category || 'other';
+            if (!categories[cat]) categories[cat] = [];
+            categories[cat].push(plugin.name);
+        });
 
-        for (const plugin of plugins) {
-            if (typeof plugin.category !== 'string') continue;
-            if (!categories[plugin.category]) categories[plugin.category] = [];
-            categories[plugin.category].push(plugin.name);
-        }
+        Object.keys(categories).sort().forEach(cat => {
+            text += `*${cat.toUpperCase()}*\n`;
+            categories[cat].forEach(name => {
+                text += `• ${name}\n`;
+            });
+            text += '\n';
+        });
 
-        for (const category of Object.keys(categories).sort()) {
-            text += `\n\n*# ${category.replace(/\b\w/g, match => match.toUpperCase())}*`;
-            for (const name of categories[category].sort()) {
-                text += `\n- ${name}`;
-            }
-        }
-
-        // to appreciate the developer please don't lose this credit
-        text += `\n\n> © Open Source WhatsApp Bot\n> https://github.com/KilluaBot/open-wabot`;
-        await m.reply(text)
+        text += `Total: ${plugins.length} plugins`;
+        await m.reply(text);
     }
-}
+};

@@ -1,16 +1,9 @@
-/*
- * Nexus Bot Controller
- * Manages the bot process with automatic restart capabilities
- */
-
-const { execSync: run, spawn } = require('child_process');
-const args = ['src/index.js', ...process.argv.slice(2)];
-const { loadAuthState } = require('./src/core/session.js');
+const { spawn } = require('child_process');
+const args = ['index.js', ...process.argv.slice(2)];
 
 let restart = false;
-let crashTimestamps = [];
+let crashCount = 0;
 const MAX_CRASHES = 3;
-const TIME_WINDOW = 60000; // 60 seconds
 
 function start() {
     const bot = spawn(process.argv[0], args, {
@@ -18,47 +11,32 @@ function start() {
         stdio: ['inherit', 'inherit', 'inherit', 'ipc']
     });
 
-    // Handle messages from the bot
     bot.on('message', async msg => {
-        function handleRestart() {
-            console.log('Restart signal received. Stopping process...');
+        if (msg === 'restart') {
+            console.log('🔄 Restart signal received...');
             restart = true;
             bot.kill();
         }
-
-        switch (msg) {
-            case 'restart':
-                handleRestart();
-                break;
-            case 'unauthorized':
-                let s = await loadAuthState({ session: { type: 'local' } });
-                await s.removeCreds();
-                handleRestart();
-                break;
-        }
     });
 
-    // Handle the process exit
     bot.on('close', code => {
         if (restart) {
-            console.log('Process stopped. Restarting bot...');
+            console.log('🔄 Restarting bot...');
             restart = false;
+            crashCount = 0;
             start();
             return;
         }
 
-        console.log(`Bot process exited with code ${code}.`);
-        crashTimestamps.push(Date.now());
+        crashCount++;
+        console.log(`❌ Bot crashed (${crashCount}/${MAX_CRASHES})`);
 
-        // Remove timestamps older than TIME_WINDOW
-        crashTimestamps = crashTimestamps.filter(timestamp => Date.now() - timestamp < TIME_WINDOW);
-
-        if (crashTimestamps.length >= MAX_CRASHES) {
-            console.log(`Bot crashed ${MAX_CRASHES} times in a short period. Stopping restarts.`);
+        if (crashCount >= MAX_CRASHES) {
+            console.log('💀 Too many crashes, stopping...');
             process.exit(1);
         } else {
-            console.log(`Bot has crashed ${crashTimestamps.length} times. Restarting bot...`);
-            start();
+            console.log('🔄 Restarting in 5 seconds...');
+            setTimeout(start, 5000);
         }
     });
 }

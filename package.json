@@ -1,62 +1,25 @@
 {
   "name": "nexus-bot",
   "version": "2.0.0",
-  "description": "Advanced WhatsApp bot with modular architecture and bridge system",
-  "main": "src/index.js",
+  "description": "Clean WhatsApp bot with modular architecture",
+  "main": "index.js",
   "engines": {
-    "node": ">20.0.0 <22.7.0"
+    "node": ">20.0.0"
   },
   "scripts": {
     "start": "node controller.js",
-    "dev": "node src/index.js",
-    "test": "node test.js",
-    "clear:session": "node scripts/clear-session.js",
-    "setup": "node scripts/setup.js"
+    "dev": "node index.js",
+    "setup": "node setup.js",
+    "clear": "node clear-session.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nexus-bot/nexus-bot.git"
-  },
-  "keywords": [
-    "whatsapp-bot",
-    "nexus-bot",
-    "baileys",
-    "modular-bot",
-    "bridge-system"
-  ],
-  "author": "Nexus Bot Team",
-  "license": "GPL-3.0-or-later",
   "dependencies": {
     "axios": "^1.7.5",
     "baileys": "^6.7.7",
-    "cheerio": "^1.0.0",
-    "emoji-regex": "^10.3.0",
-    "file-type": "^19.4.1",
+    "pino": "^8.17.2",
     "pino-pretty": "^11.2.2",
-    "qrcode-terminal": "^0.12.0",
-    "syntax-error": "^1.4.0",
-    "node-telegram-bot-api": "^0.64.0",
-    "mongodb": "^6.3.0",
-    "sharp": "^0.33.0",
-    "fluent-ffmpeg": "^2.1.2",
-    "wa-sticker-formatter": "^4.4.4",
-    "mime-types": "^2.1.35",
-    "fs-extra": "^11.2.0"
+    "qrcode-terminal": "^0.12.0"
   },
-  "peerDependencies": {
-    "baileys-mongodb": "^1.0.4",
-    "baileys-firebase": "^1.0.0",
-    "jimp": "^0.16.13"
-  },
-  "peerDependenciesMeta": {
-    "baileys-firebase": {
-      "optional": true
-    },
-    "baileys-mongodb": {
-      "optional": true
-    },
-    "jimp": {
-      "optional": true
-    }
-  }
+  "keywords": ["whatsapp-bot", "nexus-bot", "baileys"],
+  "author": "Nexus Team",
+  "license": "MIT"
 }
